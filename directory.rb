@@ -3,7 +3,6 @@ def input_students
   puts "To finish, just hit return twice"
 
   students = []
-
   name = gets.chomp
 
   while !name.empty? do
@@ -22,8 +21,12 @@ def print_header
 end
 
 def print(students)
+  letter = "A"
+
   students.each_with_index do |student, index|
-    puts "#{index + 1}. #{student[:name]} (#{student[:cohort]} cohort)"
+    if student[:name][0] == letter
+      puts "#{index + 1}. #{student[:name]} (#{student[:cohort]} cohort)"
+    end
   end
 end
 
