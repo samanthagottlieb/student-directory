@@ -5,8 +5,23 @@ def input_students
   students = []
   name = gets.chomp
 
+  cohorts = [:january, :february, :march, :april, :may, :june, :july, :august, :september, :october, :november, :december]
+
   while !name.empty? do
-    students << {name: name, cohort: :november, hobby: :trouble}
+    while true
+      puts "What cohort are they in?"
+      cohort = gets.chomp.downcase.to_sym
+
+      if cohorts.include? cohort
+        cohort
+        break
+      elsif cohort.empty?
+        cohort = :november
+        break
+      end
+    end
+
+    students << {name: name, cohort: cohort, hobby: :trouble}
     puts "Now we have #{students.count} students"
 
     name = gets.chomp
@@ -16,20 +31,20 @@ def input_students
 end
 
 def print_header
-  puts "The students of Villains Academy".center(50)
-  puts "-------------".center(50)
+  puts "The students of Villains Academy".center(100)
+  puts "-------------".center(100)
 end
 
 def print(students)
   index = 0
   while index < students.length
-    puts "#{index + 1}. #{students[index][:name]} (#{students[index][:cohort]} cohort, hobby: #{students[index][:hobby]})".center(50)
+    puts "#{index + 1}. #{students[index][:name]} (#{students[index][:cohort]} cohort, likes #{students[index][:hobby]})".center(100)
     index += 1
   end
 end
 
 def print_footer(students)
-  puts "Overall, we have #{students.count} great students".center(50)
+  puts "Overall, we have #{students.count} great students".center(100)
 end
 
 students = input_students
