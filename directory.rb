@@ -36,10 +36,14 @@ def print_header
 end
 
 def print(students)
-  index = 0
-  while index < students.length
-    puts "#{index + 1}. #{students[index][:name]} (#{students[index][:cohort]} cohort, likes #{students[index][:hobby]})".center(100)
-    index += 1
+  cohorts = [:january, :february, :march, :april, :may, :june, :july, :august, :september, :october, :november, :december]
+
+  cohorts.each do |cohort|
+    students.each do |student|
+      if cohort == student[:cohort]
+        puts "#{student[:name]} (#{student[:cohort]} cohort, likes #{student[:hobby]})".center(100)
+      end
+    end
   end
 end
 
