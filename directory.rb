@@ -22,7 +22,12 @@ def input_students
     end
 
     students << {name: name, cohort: cohort, hobby: :trouble}
-    puts "Now we have #{students.count} students"
+
+    if students.count == 1
+      puts "Now we have 1 student"
+    else
+      puts "Now we have #{students.count} students"
+    end
 
     name = gets.chomp
   end
@@ -48,7 +53,12 @@ def print(students)
 end
 
 def print_footer(students)
-  puts "Overall, we have #{students.count} great students".center(100)
+  if students.count == 1
+    puts "Overall, we have 1 great student".center(100)
+  else
+    puts "Overall, we have #{students.count} great students".center(100)
+  end
+
 end
 
 students = input_students
