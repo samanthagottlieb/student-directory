@@ -1,42 +1,10 @@
 @students = []
 @cohorts = [:january, :february, :march, :april, :may, :june, :july, :august, :september, :october, :november, :december]
 
-def input_students
-  puts "Please enter the names of the students"
-  puts "To finish, just hit return twice"
-
-  name = gets.chomp
-
-  while !name.empty? do
-    while true
-      puts "What cohort are they in?"
-      cohort = gets.chomp.downcase.to_sym
-
-      if @cohorts.include? cohort
-        cohort
-        break
-      elsif cohort.empty?
-        cohort = :november
-        break
-      end
-    end
-
-    @students << {name: name, cohort: cohort, hobby: :trouble}
-
-    if @students.count == 1
-      puts "Now we have 1 student"
-    else
-      puts "Now we have #{@students.count} students"
-    end
-
-    name = gets.chomp
-  end
-end
-
 def interactive_menu
   loop do
     print_menu
-    process(gets.chomp)
+    process(STDIN.gets.chomp)
   end
 end
 
@@ -62,6 +30,38 @@ def process(selection)
     exit
   else
     puts "I don't know what you mean, try again"
+  end
+end
+
+def input_students
+  puts "Please enter the names of the students"
+  puts "To finish, just hit return twice"
+
+  name = STDIN.gets.chomp
+
+  while !name.empty? do
+    while true
+      puts "What cohort are they in?"
+      cohort = STDIN.gets.chomp.downcase.to_sym
+
+      if @cohorts.include? cohort
+        cohort
+        break
+      elsif cohort.empty?
+        cohort = :november
+        break
+      end
+    end
+
+    @students << {name: name, cohort: cohort, hobby: :trouble}
+
+    if @students.count == 1
+      puts "Now we have 1 student"
+    else
+      puts "Now we have #{@students.count} students"
+    end
+
+    name = STDIN.gets.chomp
   end
 end
 
@@ -106,8 +106,8 @@ def save_students
   file.close
 end
 
-def load_students
-  file = File.open("students.csv", "r")
+def load_students(filename = "students.csv")
+  file = File.open(filename, "r")
   file.readlines.each do |line|
   name, cohort, hobby = line.chomp.split(",")
     @students << {name: name, cohort: cohort.to_sym, hobby: :hobby}
@@ -115,4 +115,17 @@ def load_students
   file.close
 end
 
+def try_load_students
+  filename = ARGV.first # first argument from the command line
+  return if filename.nil? # get out of the method if it isn't given
+  if File.exists?(filename) # if it exists
+    load_students(filename)
+    puts "Loaded #{@students.count} from #{filename}"
+  else # if it doesn't exist
+    puts "Sorry, #{filename} doesn't exist."
+    exit # quit the program
+  end
+end
+
+try_load_students
 interactive_menu
